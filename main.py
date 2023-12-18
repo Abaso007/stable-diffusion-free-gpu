@@ -36,7 +36,7 @@ def generate():
   buffered = BytesIO()
   image.save(buffered, format="PNG")
   img_str = base64.b64encode(buffered.getvalue())
-  img_str = "data:image/png;base64," + str(img_str)[2:-1]
+  img_str = f"data:image/png;base64,{str(img_str)[2:-1]}"
 
   #generate text
   input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
@@ -44,7 +44,7 @@ def generate():
   generated_text = tokenizer.decode(generated_output[0], skip_special_tokens=True)
 
   print("Sending image and text ...")
- 
+
   return render_template('index.html', generated_image=img_str, generated_text=generated_text, prompt=prompt)
 
 if __name__ == '__main__':
